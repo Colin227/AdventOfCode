@@ -1,43 +1,51 @@
-inputFile = open('/home/colin/Documents/scratch/adventOfCode/AdventOfCode/Day3/testinput.txt', 'r')
+inputFile = open('input.txt', 'r')
 instructions = inputFile.readlines()
 instructions = [instruction.rstrip() for instruction in instructions]
-numArray = []
+oxygenArray = []
+coArray = []
+
+oxygenNums = instructions.copy()
+coNums = instructions.copy()
+  
+def removeNum(numToRemove, col, workingList):
+    for instruction in workingList[:]:
+        if (int(instruction[col]) == numToRemove) and len(workingList) > 1:
+            workingList.remove(instruction)
 
 
+def getO2(col):
+    for instruction in oxygenNums: # for each row
+        # Look at the bit in current (col) column. append digit to list
+        oxygenArray.append(int(instruction[col])) 
 
-'''
-    Get the most common value for the first bit
-'''
-def getFirstBits():
-    for i in range(0, 5): # for each column
-        for instruction in instructions: # for each row
-            numArray.append(int(instruction[i]))
-        if numArray.count(0) > numArray.count(1):
-            removeNum(0)
-        else:
-            removeNum(1)
+    if oxygenArray.count(0) <= oxygenArray.count(1):
+        removeNum(0, col, oxygenNums)
+    else:
+        removeNum(1, col, oxygenNums)
 
-def removeNum(numToRemove):
-    for instruction in instructions:
-        if instruction.startswith(str(numToRemove)):
-            instructions.remove(instruction)
-     
-getFirstBits()     
+    oxygenArray.clear()
 
-print(instructions)
+def getCO2(col):
+    for instruction in coNums: # for each row
+        # Look at the bit in current (col) column. append digit to list
+        coArray.append(int(instruction[col])) 
 
+    if coArray.count(0) <= coArray.count(1):
+        removeNum(1, col, coNums)
+    else:
+        removeNum(0, col, coNums)
 
-#print(numArray.count(0))
-#print(numArray.count(1))
+    coArray.clear()
 
-#def getOxygenRating():
+def getLifeSupport():
+    for col in range(0, 12): # for each column
+        getO2(col)
+        getCO2(col)
 
+getLifeSupport()
+    
+o2Dec = (int(oxygenNums[0], 2)) # convert from binary to decimal
+co2Dec = (int(coNums[0], 2)) # convert from binary to decimal
 
-#val = getFirstBits()
-#outputArray = []
-#def oxygenRating(val):
-#    for instruction in instructions:
-#        if instruction.startswith(str(val)):
-#                outputArray.append(instruction)
-#    print(outputArray)
-#oxygenRating(val)
+print(f'O2 gen rating: {o2Dec} CO2 gen rating {co2Dec}')
+print(co2Dec*o2Dec) # Answer is o2 gen rating * CO2 gen rating 
