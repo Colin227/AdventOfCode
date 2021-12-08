@@ -14,6 +14,8 @@ class board:
     # Parameter nums_in_row is the list of board numbers
     def setBoard(self, nums_in_board):
         boardNumber = self.boardNumber
+        for boardIndex in nums_in_board:
+            self.boardArray = createBoard(boardIndex)
         # for i in range(0, 5):
         #     self.boardArray[i] = [int(s) for s in nums_in_board.split(',')]
 
@@ -31,9 +33,9 @@ def printBoards():
 # get the total number of boards 
 # print(len(boards))
 
-def createBoard():
+def createBoard(boardIndex):
     workingList = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0],]
-    board_nums = " ".join(boards[0].split())
+    board_nums = " ".join(boards[boardIndex].split())
 
     row_values = [int(i) for i in board_nums.split()]
 
@@ -42,7 +44,11 @@ def createBoard():
         for col in range(0, 5):
             workingList[row][col] = row_values[current_board_num_index]
             current_board_num_index += 1
-    print(workingList)
+    return workingList
+test = []
+for i in range(0, len(boards)):
+    test.append(createBoard(i))
 
-    
-createBoard()
+for b in test:
+    print(b)
+# print(test)
