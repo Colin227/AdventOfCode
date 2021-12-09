@@ -12,6 +12,7 @@ class board:
         self.boardNumber = boardIndex
         self.boardArray = createBoard(boardIndex)
         self.winner = False
+
         
     def createBoard(boardIndex):
         workingList = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0],]
